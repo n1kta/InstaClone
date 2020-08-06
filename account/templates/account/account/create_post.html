@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+    <style>
+        .create__post__form p input[type=text], .create__post__form p textarea  {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .create__post__form button {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+
+    <section class="create__post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="create__post__form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Add Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

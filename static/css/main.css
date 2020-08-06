@@ -1,0 +1,29 @@
+#section__login .card {
+    padding: 10px;
+    margin:5% auto;
+    background-color: #fff;
+}
+
+.card-body h1, p{
+    text-align: center;
+}
+
+.card-body button {
+    display: block;
+    margin: 15px auto 0;
+}
+
+.card-body .card__text {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.card-body form input {
+    display: block;
+    margin: 10px auto 0;
+    width: 50%;
+}
+
+.have__account {
+    text-align: center;
+}

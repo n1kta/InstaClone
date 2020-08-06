@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+    <style>
+        .detail_main-info {
+            width: 50%;
+        }
+        .detail_main-info_upper {
+            padding-left: 25%;
+            align-items: center;
+        }
+
+        .detail_main-info_upper a {
+            padding: 5px;
+            border: 1px solid;
+            background: rgba(0, 142, 254);
+            margin: 0 25px;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .detail_main-info_upper a:hover {
+            text-decoration: none;
+        }
+
+        .detail_main-info_under {
+            justify-content: space-around;
+
+        }
+
+        .detail_main_content-posts a:hover {
+            opacity: 0.5;
+        }
+
+        .detail_main_content-posts a img {
+            position: relative;
+        }
+
+        .detail_main_content-posts span {
+            position: absolute;
+            top: 0;
+        }
+    </style>
+
+    <section class="detail_main mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="detail_main-seection d-flex">
+                        <div class="detail_main-avatar">
+                            {% for curr in current_user.profile_user.all %}
+                                {% thumbnail curr.avatar_image "100x100" as im %}
+                                    <img src="{{ im.url }}" alt="">
+                                {% endthumbnail %}
+                            {% endfor %}
+                        </div>
+                        <div class="detail_main-info">
+                            <div class="detail_main-info_upper d-flex">
+                                <h2 style="font-weight: 400">{{ current_user }}</h2>
+                                {% if request.user != current_user %}
+                                    <a href="#" data-id="{{ current_user.id }}"
+                                       data-action="{% if request.user in current_user.followers.all %}un{% endif %}follow"
+                                        class="follow">
+                                        {% if request.user not in current_user.followers.all %}
+                                            Follow
+                                        {% else %}
+                                            Unfollow
+                                        {% endif %}
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'create_post' %}">Add post</a>
+                                    <a href="#">Edit Profile</a>
+                                {% endif %}
+                            </div>
+                            <div class="detail_main-info_under d-flex">
+                                <span class="post">
+                                    <span class="total">{{ current_user.images_user.count }}</span>
+                                    post{{ current_user.images_user.count|pluralize }}
+                                </span>
+                                <span class="count">
+                                    <span class="total">{{ current_user.followers.count }}</span>
+                                    follower{{ current_user.followers.count|pluralize }}
+                                </span>
+                                <span class="follower">
+                                    <span class="total">{{ current_user.following.count }}</span>
+                                    following{{ current_user.following.count|pluralize }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="detail_main_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="detail_main_content-posts">
+                        {% for curr in current_user.images_user.all %}
+                            <a href="{{ curr.get_absolute_url }}">
+                                {% thumbnail curr.image "250x250" as im %}
+                                    <img src="{{ im.url }}" alt="">
+                                {% endthumbnail %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+<script>
+    {% block domready %}
+        $('a.follow').click(function(e){
+            e.preventDefault();
+            $.post('{% url "user_follow" %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function(data){
+                if (data['status'] === 'ok') {
+                    let previous_action = $('a.follow').data('action');
+                    $('a.follow').data('action', previous_action === 'follow' ? 'unfollow' : 'follow');
+                    $('a.follow').text(previous_action === 'follow' ? 'Unfollow' : 'Follow');
+                    let previous_followers = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action === 'follow' ? previous_followers + 1 : previous_followers - 1);
+                }
+            });
+        });
+    {% endblock domready %}
+</script>

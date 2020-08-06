@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Log In
+{% endblock title %}
+
+{% block content %}
+    <section id="section__login">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="width: auto;">
+                        <div class="card-body">
+                            <h1 class="card-title">InstaClone</h1>
+                            <form action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}" placeholder="{{ field.html_name }}" type="text" />
+                                    {{ field.errors }}
+                                {% endfor %}
+                                <input type="hidden" name="next" value="{{ next }}" />
+                                <button type="submit" class="btn btn-primary">Войти</button>
+                            </form>
+                            <div class="card__text">
+                                <a href="{% url 'password_reset' %}">Забыл пароль?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section__have_account">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="width: auto;">
+                        <div class="card-body">
+                            <div class="have__account">
+                                <span>У вас ещё нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

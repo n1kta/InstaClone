@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Log Out
+{% endblock title %}
+
+{% block content %}
+    <section id="section__login">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="width: auto;">
+                        <div class="card-body">
+                            <span>Вы успешно вышли с аккаунта</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section__have_account">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="width: auto;">
+                        <div class="card-body">
+                            <div class="have__account">
+                                <span><a href="{% url 'login' %}">Войти в аккаунт</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

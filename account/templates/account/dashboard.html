@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .card-body .card-info h5 {
+            color: black;
+            margin: 0;
+            font-weight: 500;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        }
+
+        .card-body .card-info h5:hover {
+            text-decoration: none;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
+
+    <section class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wrapper d-flex justify-content-center">
+                        <div class="main__content">
+                                {% for image in images %}
+                                    <div class="card mt-5" style="width: 36rem;">
+                                        <div class="card-title">
+                                            {% thumbnail image.profile.avatar_image "25x25" as im %}
+                                                <img src="{{ im.url }}" alt="">
+                                            {% endthumbnail %}
+                                            <a href="{% url 'user_detail' image.user %}">{{ image.user }}</a>
+                                        </div>
+                                        {% thumbnail image.image "250x250" as im %}
+                                            <img src="{{ im.url }}" class="card-img-top" alt="">
+                                        {% endthumbnail %}
+                                        <div class="card-body">
+                                            <div class="card-info">
+                                                <a href="#">
+                                                    <i class="fa fa-heart-o like-action {% if request.user in image.users_like.all %}red{% endif %}"
+                                                       id="{{ image.id }}" data-user="{{ request.user.id }}"
+                                                       data-id="{{ image.id }}"
+                                                       data-action="{% if request.user in image.users_like.all %}un{% endif %}like"
+                                                       aria-hidden="true">
+                                                    <h5 class="card-title"><span class="user-like-count">{{ image.users_like.count }}</span> likes</h5>
+                                                    </i>
+                                                </a>
+                                            </div>
+                                            <h6 class="card-text">
+                                                <a href="{% url 'user_detail' image.user %}">{{ image.user }}</a> {{ image.description|truncatechars:30 }}<a
+                                                    href="{{ image.get_absolute_url }}"> more</a>
+                                            </h6>
+                                            <h6 class="card-text">
+                                                <a href="{{  image.get_absolute_url }}">View all {{ image.post_review.count }} comments</a>
+                                            </h6>
+                                            <h6 class="card-text">{{ image.created|timesince }} ago</h6>
+                                            <hr/>
+                                            <form action="{% url 'review_add' image.id %}" method="POST" class="input-group mb-3">
+                                                {% csrf_token %}
+                                                <input type="text" name="text" class="form-control mr-3" placeholder="Add comment">
+                                                <button type="submit" class="btn btn-secondary mt-0">Post</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+<script>
+    {% block domready %}
+        $('.card-info a i').click(function(e){
+            e.preventDefault();
+            $.post('{% url "users_like" %}',
+            {
+                user: $(this).data('user'),
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            (data) => {
+                if (data['status'] === 'ok') {
+                    const previous_action = $(this).data('action')
+                    $(this).data('action', previous_action === 'like' ? 'unlike' : 'like');
+                    if (previous_action === 'like') {
+                        $(this).addClass('red')
+                    } else {
+                        $(this).removeClass('red')
+                    }
+                    let previous_like = parseInt($(this).find('.card-title .user-like-count').text())
+                    $(this).find('.card-title .user-like-count').text(previous_action === 'like' ? previous_like + 1 : previous_like - 1)
+                }
+            });
+        });
+    {% endblock domready %}
+</script>
