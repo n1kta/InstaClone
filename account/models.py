@@ -4,6 +4,7 @@ from sorl.thumbnail import ImageField
 
 
 class Profile(models.Model):
+    """Модель для профиля(дополнение к User)"""
     user = models.ForeignKey(User, related_name='profile_user', on_delete=models.CASCADE, blank=True, null=True)
     date_of_birthday = models.DateField(auto_now_add=True)
     avatar_image = ImageField(upload_to='users/%Y/%m/%d', default='/Users/nikitalebediev/Downloads/account.png')
@@ -16,6 +17,7 @@ class Profile(models.Model):
 
 
 class Contact(models.Model):
+    """Связующяя модель для подписок"""
     user_from = models.ForeignKey(User, related_name='rel_from_set', on_delete=models.CASCADE)
     user_to = models.ForeignKey(User, related_name='rel_to_set', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)

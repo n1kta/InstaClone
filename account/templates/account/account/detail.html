@@ -9,17 +9,12 @@
             width: 50%;
         }
         .detail_main-info_upper {
-            padding-left: 25%;
+            padding-left: 8%;
             align-items: center;
         }
 
         .detail_main-info_upper a {
-            padding: 5px;
-            border: 1px solid;
-            background: rgba(0, 142, 254);
-            margin: 0 25px;
-            color: white;
-            border-radius: 3px;
+            margin-left: 10px;
         }
 
         .detail_main-info_upper a:hover {
@@ -71,8 +66,9 @@
                                         {% endif %}
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'create_post' %}">Add post</a>
-                                    <a href="#">Edit Profile</a>
+                                    <a class="btn btn-primary" href="{% url 'create_post' %}">Add post</a>
+                                    <a class="btn btn-primary" href="{% url 'user_edit' request.user.username %}">Edit Profile</a>
+                                    <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
                                 {% endif %}
                             </div>
                             <div class="detail_main-info_under d-flex">

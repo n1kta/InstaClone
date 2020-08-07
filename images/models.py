@@ -6,10 +6,11 @@ from account.models import Profile
 
 
 class Image(models.Model):
+    """Модель для изображений"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images_user')
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='images_profile', blank=True, null=True)
     title = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d')
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -23,7 +24,7 @@ class Image(models.Model):
 
     def save(self, *args, **kwargs):
         value = self.title
-        self.slug = slugify(value, allow_unicode=True)
+        self.slug = slugify(value)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -34,6 +35,7 @@ class Image(models.Model):
 
 
 class Review(models.Model):
+    """Модель для комментарий"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)

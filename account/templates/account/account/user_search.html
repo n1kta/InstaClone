@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+    <style>
+        .finding__user {
+            margin: 0 auto;
+            width: 50%;
+            border: 1px solid rgb(107, 117, 125);
+            border-radius: 4px;
+        }
+
+        .finding__user a {
+            padding: 15px;
+        }
+
+        .finding__user a:hover {
+            text-decoration: none;
+        }
+    </style>
+
+    <section class="user__search">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="user__search__output mt-4">
+                        {% if users %}
+                            {% for user in users %}
+                                <div class="finding__user mt-2">
+                                    {% for avatar in user.profile_user.all %}
+                                        {% thumbnail avatar.avatar_image "25x25" as im %}
+                                            <img src="{{ im.url }}" alt="">
+                                        {% endthumbnail %}
+                                    {% endfor %}
+                                    <a href="{% url 'user_detail' user.username %}">{{ user.username }}</a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <span class="d-flex justify-content-center">No user found.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

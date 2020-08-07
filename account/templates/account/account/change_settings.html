@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
-{% load static %}
 {% load thumbnail %}
+{% load static %}
 
 {% block content %}
     <style>
-        .create__post__form p input[type=text], .create__post__form p textarea  {
+        .change__settings__form p input[type=text], .create__post__form p textarea  {
             width: 50%;
             margin: 0 auto;
         }
-        .create__post__form button {
+        .change__settings__form button {
             display: block;
             margin: 0 auto;
         }
     </style>
 
-    <section class="create__post">
+    <section class="change__settings">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="create__post__form" method="POST" enctype="multipart/form-data">
+                    <form class="change__settings__form mt-4" action="" method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
                         {{ form.error_class }}
-                        <button type="submit" class="btn btn-primary">Add Post</button>
+                        <button type="submit" class="btn btn-primary">Edit Profile</button>
                     </form>
                 </div>
             </div>
