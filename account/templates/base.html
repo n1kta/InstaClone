@@ -24,10 +24,10 @@
                     <a class="nav-link" href="{% url 'dashboard' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Explore</a>
+                    <a class="nav-link" href="{% url 'explore' %}">Explore</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Feeds</a>
+                    <a class="nav-link" href="{% url 'feeds' %}">Feeds</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user_detail' request.user %}">My Profile</a>
@@ -51,7 +51,9 @@
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

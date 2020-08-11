@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
-from images.models import Image
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -28,14 +27,4 @@ class UserEditForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Image
-        fields = ('title', 'image', 'description', )
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
         }

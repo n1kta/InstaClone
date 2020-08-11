@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% load static %}
+
+{% block content %}
+    <style>
+
+    </style>
+
+    <section class="delete__post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="delete__post__form d-flex justify-content-center mt-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <p>Are you sure, you want to delete post?</p>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
