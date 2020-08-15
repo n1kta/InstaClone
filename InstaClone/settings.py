@@ -140,11 +140,11 @@ LOGOUT_URL = 'logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'niga200213@gmail.com'
-EMAIL_HOST_PASSWORD = '200213Niga'
+EMAIL_HOST_USER = '*gmail.com'
+EMAIL_HOST_PASSWORD = '****'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'CodingWithMitch Team <noreply@codingwithmitch.com>'
+DEFAULT_FROM_EMAIL = 'InstaClone <noreply@instaclone.com>'
 
 # User settings
 
