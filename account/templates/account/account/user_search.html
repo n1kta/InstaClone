@@ -35,7 +35,6 @@
                                         {% endthumbnail %}
                                     {% endfor %}
                                     <a href="{% url 'user_detail' user.username %}">{{ user.username }}</a>
-                                    <span style="font-size: 12px; color: grey;">{% if request.user in user.followers.all %}Following{% endif %}</span>
                                 </div>
                             {% endfor %}
                         {% else %}

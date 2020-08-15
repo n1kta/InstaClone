@@ -6,13 +6,10 @@ from .views import *
 urlpatterns = [
     path('', login_required(DashboardListView.as_view()), name='dashboard'),
 
-    path('feeds/', login_required(FeedsView.as_view()), name='feeds'),
-    path('explore/', login_required(DashboardRankingView.as_view()), name='explore'),
-
     path('post/create/', login_required(UserCreatePost.as_view()), name='create_post'),
-    path('post/edit/<int:pk>/', login_required(PostEditView.as_view()), name='edit_post'),
-    path('post/delete/<int:pk>/', login_required(PostDeleteView.as_view()), name='delete_post'),
     path('post/<slug:slug>/', login_required(DashboardDetailView.as_view()), name='dashboard_detail'),
+
+    path('review/<int:pk>/', login_required(AddReview.as_view()), name='review_add'),
 
     path('account/login/', auth_view.LoginView.as_view(), name='login'),
     path('account/logout/', auth_view.LogoutView.as_view(), name='logout'),

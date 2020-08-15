@@ -138,7 +138,7 @@ LOGOUT_URL = 'logout'
 
 # Email settings
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'niga200213@gmail.com'
 EMAIL_HOST_PASSWORD = '200213Niga'
@@ -151,9 +151,3 @@ DEFAULT_FROM_EMAIL = 'CodingWithMitch Team <noreply@codingwithmitch.com>'
 ABSOLUTE_URL_OVERRIDES = {
  'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
 }
-
-# Redis
-
-REDIS_HOST = '127.0.0.1'
-REDIS_PORT = 6379
-REDIS_DB = 0
