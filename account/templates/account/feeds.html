@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% load static %}
+
+{% block content %}
+    <section class="feeds">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="new__feeds mt-4">
+                        {% for action in actions %}
+                             {% with user=action.user profile=action.user.profile_user.all %}
+                                     <div class="card mt-3" style="width: 30%; margin: 0 auto;">
+                                     {% for prof in profile %}
+                                        <div class="card-title d-flex" style="margin: 0; align-items: center">
+                                            {% thumbnail prof.avatar_image "25x25" crop="100%" as im %}
+                                                <img src="{{ im.url }}">
+                                            {% endthumbnail %}
+                                            <a href="{{ user.get_absolute_url }}">{{ user }}</a>
+                                            <div class="card-body">
+                                                <span style="font-size:12px;color:gray;">{{ action.created|timesince }} ago</span>
+                                                <br>
+                                                <a href="{{ user.get_absolute_url }}">{{ user.first_name }}</a>
+                                                {{ action.verb }}
+                                                {% if action.target %}
+                                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                     {% endfor %}
+                                     </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

@@ -27,6 +27,7 @@
                 <div class="col-md-12">
                     <div class="wrapper d-flex justify-content-center">
                         <div class="main__content">
+                            <div class="infinite-item">
                                 {% for image in images %}
                                     <div class="card mt-5" style="width: 36rem;">
                                         <div class="card-title">
@@ -40,7 +41,7 @@
                                         {% endthumbnail %}
                                         <div class="card-body">
                                             <div class="card-info">
-                                                <a href="#">
+                                                <a href="">
                                                     <i class="fa fa-heart-o like-action {% if request.user in image.users_like.all %}red{% endif %}"
                                                        id="{{ image.id }}" data-user="{{ request.user.id }}"
                                                        data-id="{{ image.id }}"
@@ -59,7 +60,7 @@
                                             </h6>
                                             <h6 class="card-text">{{ image.created|timesince }} ago</h6>
                                             <hr/>
-                                            <form action="{% url 'review_add' image.id %}" method="POST" class="input-group mb-3">
+                                            <form action="{% url 'images:review_add' image.id %}" method="POST" class="input-group mb-3">
                                                 {% csrf_token %}
                                                 <input type="text" name="text" class="form-control mr-3" placeholder="Add comment">
                                                 <button type="submit" class="btn btn-secondary mt-0">Post</button>
@@ -67,6 +68,15 @@
                                         </div>
                                     </div>
                                 {% endfor %}
+                            </div>
+                            {% if page_obj.has_next %}
+                                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                            {% endif %}
+                            <div class="d-flex justify-content-center" style="display:none;">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,27 +87,39 @@
 
 <script>
     {% block domready %}
-        $('.card-info a i').click(function(e){
-            e.preventDefault();
-            $.post('{% url "users_like" %}',
-            {
-                user: $(this).data('user'),
-                id: $(this).data('id'),
-                action: $(this).data('action')
+        let infinite = new Waypoint.Infinite({
+            element: $('.main__content')[0],
+            handler: function(direction) {
             },
-            (data) => {
-                if (data['status'] === 'ok') {
-                    const previous_action = $(this).data('action')
-                    $(this).data('action', previous_action === 'like' ? 'unlike' : 'like');
-                    if (previous_action === 'like') {
-                        $(this).addClass('red')
-                    } else {
-                        $(this).removeClass('red')
-                    }
-                    let previous_like = parseInt($(this).find('.card-title .user-like-count').text())
-                    $(this).find('.card-title .user-like-count').text(previous_action === 'like' ? previous_like + 1 : previous_like - 1)
-                }
-            });
-        });
+            offset: 'bottom-in-view',
+            onBeforePageLoad: function () {
+                $('.spinner-border').show();
+            },
+            onAfterPageLoad: function () {
+                $('.spinner-border').hide();
+                    $('.card-info a i').click(function(e){
+                        e.preventDefault();
+                        $.post('{% url "users_like" %}',
+                        {
+                            user: $(this).data('user'),
+                            id: $(this).data('id'),
+                            action: $(this).data('action')
+                        },
+                        (data) => {
+                            if (data['status'] === 'ok') {
+                                const previous_action = $(this).data('action')
+                                $(this).data('action', previous_action === 'like' ? 'unlike' : 'like');
+                                if (previous_action === 'like') {
+                                    $(this).addClass('red')
+                                } else {
+                                    $(this).removeClass('red')
+                                }
+                                let previous_like = parseInt($(this).find('.card-title .user-like-count').text())
+                                $(this).find('.card-title .user-like-count').text(previous_action === 'like' ? previous_like + 1 : previous_like - 1)
+                            }
+                        });
+                    });
+            }
+        })
     {% endblock domready %}
 </script>

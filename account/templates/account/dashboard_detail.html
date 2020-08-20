@@ -32,11 +32,17 @@
                     <div class="wrapper d-flex justify-content-center">
                         <div class="main__content">
                             <div class="card mt-5" style="width: 36rem;">
-                                <div class="card-title">
+                                <div class="card-title d-flex" style="align-items: center;justify-content: space-between;margin: 0;padding: 0;">
                                     {% thumbnail image.profile.avatar_image "25x25" as im %}
                                         <img src="{{ im.url }}" alt="">
                                     {% endthumbnail %}
                                     {{ image.user }}
+                                    {% if request.user == image.user %}
+                                    <div class="card-title-settings">
+                                        <a href="{% url 'edit_post' image.id %}" class="btn btn-warning">edit</a>
+                                        <a href="{% url 'delete_post' image.id %}" class="btn btn-danger">delete</a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 {% thumbnail image.image "250x250" as im %}
                                     <img src="{{ im.url }}" class="card-img-top" alt="">
@@ -76,9 +82,10 @@
                                         {% endfor %}
                                     </div>
                                     <hr>
+                                    <h6>{{ total_views }} view{{ total_views|pluralize }}</h6>
                                     <h6 class="card-text">{{ image.created|timesince }} ago</h6>
                                     <hr/>
-                                    <form action="{% url 'review_add' image.id %}" method="POST" class="input-group mb-3" id="formReview">
+                                    <form action="{% url 'images:review_add' image.id %}" method="POST" class="input-group mb-3" id="formReview">
                                         {% csrf_token %}
                                         <input type="hidden" name="parent" id="contactparent" value="">
                                         <input type="text" name="text" class="form-control mr-3" id="contactcomment" placeholder="Add comment">

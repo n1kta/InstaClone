@@ -138,16 +138,22 @@ LOGOUT_URL = 'logout'
 
 # Email settings
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '*gmail.com'
-EMAIL_HOST_PASSWORD = '****'
+EMAIL_HOST_USER = '*@gmail.com'
+EMAIL_HOST_PASSWORD = '******'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'InstaClone <noreply@instaclone.com>'
+DEFAULT_FROM_EMAIL = 'CodingWithMitch Team <noreply@codingwithmitch.com>'
 
 # User settings
 
 ABSOLUTE_URL_OVERRIDES = {
  'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
 }
+
+# Redis
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 0
